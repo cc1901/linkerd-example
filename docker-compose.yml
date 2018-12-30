@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  linkerd:
+    image: buoyantio/linkerd
+    volumes:
+    - ./config.yml:/config.yml:rw
+    ports:
+    - "4140:4140"
+    - "9990:9990"
+    command: /config.yml
+  hello:
+    image: buoyantio/helloworld
+    ports:
+    - "7777:7777"
+    command: -target linkerd -protocol grpc
+  world:
+    image: buoyantio/helloworld
+    ports:
+    - "7778:7778"
+    command: -addr :7778 -text world -protocol grpc

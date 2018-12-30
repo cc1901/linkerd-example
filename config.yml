@@ -1,0 +1,22 @@
+admin:
+  ip: 0.0.0.0
+  port: 9990
+
+routers:
+- protocol: h2
+  label: grpc
+  experimental: true
+  servers:
+  - port: 4140
+    ip: 0.0.0.0
+  identifier:
+    kind: io.l5d.header.path
+    segments: 1
+  dtab: |
+    /svc => /#/io.l5d.serversets/discovery/prod;
+
+namers:
+  - kind: io.l5d.serversets
+    zkAddrs:
+    - host: 127.0.0.1
+      port: 2181
